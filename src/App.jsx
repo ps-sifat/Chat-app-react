@@ -1,9 +1,10 @@
 import React from "react";
+import Registration from "./Pages/Registation/Registration.jsx";
 
 const App = () => {
   return (
     <>
-      <p className="bg-blue-300">lsag</p>
+      <Registration />
     </>
   );
 };
