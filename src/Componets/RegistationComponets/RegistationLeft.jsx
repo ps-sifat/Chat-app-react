@@ -1,6 +1,22 @@
 import React from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import { useState } from "react";
+import { LuGoal } from "react-icons/lu";
 
 const RegistationLeft = () => {
+  const [email, setemail] = useState("");
+  console.log(email);
+
+  // const [eyeOpen, seteyeOpen] = useState("false");
+
+  /*
+   * todo: handelEmail function impliment
+   * @param ({event})
+   */
+  const handelEmail = (event) => {
+    setemail(event.target.value);
+  };
+
   return (
     <>
       <div className="h-screen w-[60%] ">
@@ -24,10 +40,11 @@ const RegistationLeft = () => {
                   Email Address <span className="text-red-600">*</span>
                 </legend>
                 <input
-                  className="py-6 px-5 placeholder:text-auth_primary_Color font-custom_nunito text-lg font-semibold "
+                  className="py-6 px-5 font-custom_nunito text-lg font-semibold "
                   type="text"
                   name="email"
                   id="email"
+                  onChange={handelEmail}
                   placeholder="@gmail.com"
                 />
               </fieldset>
@@ -37,10 +54,11 @@ const RegistationLeft = () => {
                   Full Name <span className="text-red-600">*</span>
                 </legend>
                 <input
-                  className="py-6 px-5 placeholder:text-auth_primary_Color font-custom_nunito text-lg font-semibold "
+                  className="py-6 px-5 font-custom_nunito text-lg font-semibold "
                   type="text"
-                  name="name"
-                  id="name"
+                  name="fullName"
+                  id="fullName"
+                  // onChange={handelFullname}
                   placeholder="Ladushing GTG"
                 />
               </fieldset>
@@ -49,13 +67,19 @@ const RegistationLeft = () => {
                 <legend className="px-4 ">
                   Password <span className="text-red-600">*</span>
                 </legend>
-                <input
-                  className="py-6 px-5 placeholder:text-auth_primary_Color font-custom_nunito text-lg font-semibold "
-                  type="text"
-                  name="password"
-                  id="Password"
-                  placeholder=". . . . . ."
-                />
+                <div className="flex items-center justify-between">
+                  <input
+                    className="py-6 px-5  font-custom_nunito text-lg font-semibold "
+                    type="password"
+                    name="password"
+                    // onClick={handelPassword}
+                    id="Password"
+                    placeholder=". . . . . ."
+                  />
+                  <span className="cursor-pointer">
+                    <FaEyeSlash />
+                  </span>
+                </div>
               </fieldset>
 
               <div className="mt-4">
