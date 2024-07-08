@@ -2,19 +2,64 @@ import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from "react";
 import { LuGoal } from "react-icons/lu";
+import { EmailValidator } from "../../../Utils/Validation.js";
 
 const RegistationLeft = () => {
   const [email, setemail] = useState("");
-  console.log(email);
+  const [fullName, setfullName] = useState("");
+  const [password, setpassword] = useState("");
+  const [eyeOpen, seteyeOpen] = useState("false");
 
-  // const [eyeOpen, seteyeOpen] = useState("false");
-
+  // for error
+  const [erroemail, seterroemail] = useState("");
+  const [errofullName, seterrofullName] = useState("");
+  const [erropassword, seterropassword] = useState("");
   /*
    * todo: handelEmail function impliment
    * @param ({event})
    */
   const handelEmail = (event) => {
     setemail(event.target.value);
+  };
+
+  /*
+  todo: handelfullName function impliment
+  @param ({event})
+  */
+  const handelfullName = (event) => {
+    setfullName(event.target.value);
+  };
+
+  /*
+  todo: handelPassword function impliment
+  @param ({event})
+  */
+  const handelPassword = (event) => {
+    setpassword(event.target.value);
+  };
+
+  // passwoard seen
+  const handelEye = () => {
+    seteyeOpen(!eyeOpen);
+  };
+
+  /*
+  todo: handelSubmit function impliment
+  @param ({event})
+  */
+  const handelSubmit = () => {
+    if (!email) {
+      seterroemail("Email missing");
+    } else if (!fullName) {
+      seterroemail();
+      seterrofullName("Name missing");
+    } else if (!password) {
+      seterrofullName("");
+      seterropassword("Input Passwoard");
+    } else {
+      seterropassword("");
+      alert("Everything is Ok...");
+    }
   };
 
   return (
@@ -35,55 +80,74 @@ const RegistationLeft = () => {
 
             {/* input field  */}
             <div className="mt-10 gap-y-9 flex flex-col max-w-[368px]">
-              <fieldset className="border-2 px-9  w-full rounded-lg">
-                <legend className="px-4">
-                  Email Address <span className="text-red-600">*</span>
-                </legend>
-                <input
-                  className="py-6 px-5 font-custom_nunito text-lg font-semibold "
-                  type="text"
-                  name="email"
-                  id="email"
-                  onChange={handelEmail}
-                  placeholder="@gmail.com"
-                />
-              </fieldset>
-
-              <fieldset className="border-2 px-9  w-full rounded-lg">
-                <legend className="px-4">
-                  Full Name <span className="text-red-600">*</span>
-                </legend>
-                <input
-                  className="py-6 px-5 font-custom_nunito text-lg font-semibold "
-                  type="text"
-                  name="fullName"
-                  id="fullName"
-                  // onChange={handelFullname}
-                  placeholder="Ladushing GTG"
-                />
-              </fieldset>
-
-              <fieldset className="border-2 px-9  w-full rounded-lg">
-                <legend className="px-4 ">
-                  Password <span className="text-red-600">*</span>
-                </legend>
-                <div className="flex items-center justify-between">
+              <div>
+                <fieldset className="border-2 px-9  w-full rounded-lg">
+                  <legend className="px-4">
+                    Email Address <span className="text-red-600">*</span>
+                  </legend>
                   <input
-                    className="py-6 px-5  font-custom_nunito text-lg font-semibold "
-                    type="password"
-                    name="password"
-                    // onClick={handelPassword}
-                    id="Password"
-                    placeholder=". . . . . ."
+                    className="py-6 px-5 font-custom_nunito text-lg font-semibold "
+                    type="text"
+                    name="email"
+                    id="email"
+                    onChange={handelEmail}
+                    placeholder="@gmail.com"
                   />
-                  <span className="cursor-pointer">
-                    <FaEyeSlash />
-                  </span>
-                </div>
-              </fieldset>
+                </fieldset>
+                <span className="text-red-500 font-normal font-custom_nunito">
+                  {erroemail && erroemail}
+                </span>
+              </div>
+
+              <div>
+                <fieldset className="border-2 px-9  w-full rounded-lg">
+                  <legend className="px-4">
+                    Full Name <span className="text-red-600">*</span>
+                  </legend>
+                  <input
+                    className="py-6 px-5 font-custom_nunito text-lg font-semibold "
+                    type="text"
+                    name="fullName"
+                    id="fullName"
+                    onChange={handelfullName}
+                    placeholder="Ladushing GTG"
+                  />
+                </fieldset>
+                <span className="text-red-500 font-normal font-custom_nunito">
+                  {errofullName && errofullName}
+                </span>
+              </div>
+
+              <div>
+                <fieldset className="border-2 px-9  w-full rounded-lg">
+                  <legend className="px-4 ">
+                    Password <span className="text-red-600">*</span>
+                  </legend>
+                  <div className="flex items-center justify-between">
+                    <input
+                      className="py-6 px-5  font-custom_nunito text-lg font-semibold "
+                      name="password"
+                      type={eyeOpen ? "text" : "password"}
+                      onClick={handelPassword}
+                      id="Password"
+                      placeholder=". . . . . ."
+                    />
+                    <span
+                      className="cursor-pointer text-auth_primary_Color"
+                      onClick={handelEye}
+                    >
+                      {eyeOpen ? <FaEyeSlash /> : <FaEye />}
+                    </span>
+                  </div>
+                </fieldset>
+                <span className="text-red-500 font-normal font-custom_nunito">
+                  {erropassword && erropassword}
+                </span>
+              </div>
 
               <div className="mt-4">
                 <a
+                  onClick={handelSubmit}
                   className=" py-5 w-full rounded-full text-white font-custom_nunito text-lg font-semibold text-center bg-primery_Blue"
                   href="#"
                 >
@@ -93,7 +157,10 @@ const RegistationLeft = () => {
               <div className="text-center">
                 <p className="font-sans text-sm">
                   Already have an account ?
-                  <span className="text-[#EA6C00] font-semibold"> Sign In</span>
+                  <span className="text-[#EA6C00] font-semibold cursor-pointer">
+                    {" "}
+                    Sign In
+                  </span>
                 </p>
               </div>
             </div>
