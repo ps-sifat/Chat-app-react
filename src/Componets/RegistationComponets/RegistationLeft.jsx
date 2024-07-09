@@ -1,10 +1,17 @@
 import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from "react";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { toast, Bounce } from "react-toastify";
 import { LuGoal } from "react-icons/lu";
-import { EmailValidator } from "../../../Utils/Validation.js";
+import {
+  EmailValidator,
+  FullnameValidator,
+  PasswordValidator,
+} from "../../../Utils/Validation.js";
 
 const RegistationLeft = () => {
+  const auth = getAuth();
   const [email, setemail] = useState("");
   const [fullName, setfullName] = useState("");
   const [password, setpassword] = useState("");
@@ -18,6 +25,7 @@ const RegistationLeft = () => {
    * todo: handelEmail function impliment
    * @param ({event})
    */
+
   const handelEmail = (event) => {
     setemail(event.target.value);
   };
@@ -48,17 +56,29 @@ const RegistationLeft = () => {
   @param ({event})
   */
   const handelSubmit = () => {
-    if (!email) {
-      seterroemail("Email missing");
-    } else if (!fullName) {
+    if (!email || !EmailValidator(email)) {
+      seterroemail("Email missing Or Worng email accound");
+    } else if (!fullName || FullnameValidator(fullName)) {
       seterroemail();
-      seterrofullName("Name missing");
-    } else if (!password) {
+      seterrofullName("Name missing or Character in 20 word");
+    } else if (!password || PasswordValidator(password)) {
       seterrofullName("");
-      seterropassword("Input Passwoard");
+      seterropassword("Input Passwoard or password minimum 10 Character");
     } else {
       seterropassword("");
-      alert("Everything is Ok...");
+      createUserWithEmailAndPassword(auth, email, password).then((userinfo) => {
+        toast(`${fullName} Registatin Done`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      });
     }
   };
 
@@ -127,7 +147,7 @@ const RegistationLeft = () => {
                     <input
                       className="py-6 px-5  font-custom_nunito text-lg font-semibold "
                       name="password"
-                      type={eyeOpen ? "text" : "password"}
+                      type={eyeOpen ? "password" : "text"}
                       onClick={handelPassword}
                       id="Password"
                       placeholder=". . . . . ."
