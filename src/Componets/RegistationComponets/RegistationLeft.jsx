@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { toast, Bounce } from "react-toastify";
-import { LuGoal } from "react-icons/lu";
+import BeatLoader from "react-spinners/BeatLoader.js";
 import {
   EmailValidator,
   FullnameValidator,
@@ -12,6 +12,7 @@ import {
 
 const RegistationLeft = () => {
   const auth = getAuth();
+  const [loading, setLoading] = useState(false);
   const [email, setemail] = useState("");
   const [fullName, setfullName] = useState("");
   const [password, setpassword] = useState("");
@@ -66,19 +67,39 @@ const RegistationLeft = () => {
       seterropassword("Input Passwoard or password minimum 10 Character");
     } else {
       seterropassword("");
-      createUserWithEmailAndPassword(auth, email, password).then((userinfo) => {
-        toast(`${fullName} Registatin Done`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
+      setLoading(true);
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userinfo) => {
+          toast(`${fullName} Registatin Done`, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+        })
+        .then(() => {})
+        .catch((err) => {
+          let ourErro = err.message.split("/")[1];
+          toast.error(ourErro.slice(0, ourErro.length - 2), {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+        })
+        .finally(() => {
+          setLoading(false);
         });
-      });
     }
   };
 
@@ -171,7 +192,18 @@ const RegistationLeft = () => {
                   className=" py-5 w-full rounded-full text-white font-custom_nunito text-lg font-semibold text-center bg-primery_Blue"
                   href="#"
                 >
-                  Sign up
+                  {loading ? (
+                    <BeatLoader
+                      // color={color}
+                      loading={loading}
+                      // cssOverride={override}
+                      size={20}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  ) : (
+                    "Sign up"
+                  )}
                 </a>
               </div>
               <div className="text-center">
