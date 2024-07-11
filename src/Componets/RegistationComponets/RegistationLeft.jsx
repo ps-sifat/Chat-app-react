@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { toast, Bounce } from "react-toastify";
+import { sucessTost, errorTost, infoTost } from "../../../Utils/Toast.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  // onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth";
 import BeatLoader from "react-spinners/BeatLoader.js";
 import {
   EmailValidator,
   FullnameValidator,
   PasswordValidator,
 } from "../../../Utils/Validation.js";
+import { fromJSON } from "postcss";
 
 const RegistationLeft = () => {
   const auth = getAuth();
@@ -16,7 +23,7 @@ const RegistationLeft = () => {
   const [email, setemail] = useState("");
   const [fullName, setfullName] = useState("");
   const [password, setpassword] = useState("");
-  const [eyeOpen, seteyeOpen] = useState("false");
+  const [eyeOpen, seteyeOpen] = useState(false);
 
   // for error
   const [erroemail, seterroemail] = useState("");
@@ -70,34 +77,30 @@ const RegistationLeft = () => {
       setLoading(true);
       createUserWithEmailAndPassword(auth, email, password)
         .then((userinfo) => {
-          toast(`${fullName} Registatin Done`, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
+          sucessTost(`${fullName} Registatin Done`);
+        })
+        .then(() => {
+          sendEmailVerification(auth.currentUser).then(() => {
+            infoTost(`${fullName} Please check your email`);
           });
         })
-        .then(() => {})
+        .then(() => {
+          updateProfile(auth.currentUser, {
+            displayName: fullName,
+          });
+        })
         .catch((err) => {
           let ourErro = err.message.split("/")[1];
-          toast.error(ourErro.slice(0, ourErro.length - 2), {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
+          errorTost(ourErro.slice(0, ourErro.length - 2));
         })
         .finally(() => {
+          setemail("");
+          setfullName("");
+          setpassword("");
+          setLoading("");
+          seterroemail("");
+          seterrofullName("");
+          seterropassword("");
           setLoading(false);
         });
     }
@@ -105,7 +108,7 @@ const RegistationLeft = () => {
 
   return (
     <>
-      <div className="h-screen w-[60%] ">
+      <div className="h-screen ml-44 w-[40%] ">
         <div className="flex justify-center items-center h-full flex-col ">
           <div className="flex justify-start flex-col">
             {/* title */}
@@ -131,6 +134,7 @@ const RegistationLeft = () => {
                     type="text"
                     name="email"
                     id="email"
+                    value={email}
                     onChange={handelEmail}
                     placeholder="@gmail.com"
                   />
@@ -150,6 +154,7 @@ const RegistationLeft = () => {
                     type="text"
                     name="fullName"
                     id="fullName"
+                    value={fullName}
                     onChange={handelfullName}
                     placeholder="Ladushing GTG"
                   />
@@ -169,8 +174,9 @@ const RegistationLeft = () => {
                       className="py-6 px-5  font-custom_nunito text-lg font-semibold "
                       name="password"
                       type={eyeOpen ? "password" : "text"}
-                      onClick={handelPassword}
-                      id="Password"
+                      value={password}
+                      onChange={handelPassword}
+                      id="password"
                       placeholder=". . . . . ."
                     />
                     <span
