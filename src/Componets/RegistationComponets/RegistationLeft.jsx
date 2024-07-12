@@ -23,7 +23,7 @@ const RegistationLeft = () => {
   const [email, setemail] = useState("");
   const [fullName, setfullName] = useState("");
   const [password, setpassword] = useState("");
-  const [eyeOpen, seteyeOpen] = useState(false);
+  const [eyeOpen, seteyeOpen] = useState(true);
 
   // for error
   const [erroemail, seterroemail] = useState("");
