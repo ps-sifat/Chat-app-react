@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { sucessTost, errorTost, infoTost } from "../../../Utils/Toast.js";
+import { Navigate } from "react-router-dom";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -15,10 +17,12 @@ import {
   FullnameValidator,
   PasswordValidator,
 } from "../../../Utils/Validation.js";
-import { fromJSON } from "postcss";
-
+import { GetTimeNow } from "../../../Utils/Moments/Moments.js";
+import { getDatabase, ref, set, push } from "firebase/database";
 const RegistationLeft = () => {
   const auth = getAuth();
+  const db = getDatabase();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setemail] = useState("");
   const [fullName, setfullName] = useState("");
@@ -88,6 +92,18 @@ const RegistationLeft = () => {
           updateProfile(auth.currentUser, {
             displayName: fullName,
           });
+        })
+        .then(() => {
+          const usesRef = ref(db, "users/");
+          set(push(usesRef), {
+            uid: auth.currentUser.uid,
+            userName: fullName,
+            userEmail: auth.currentUser.email,
+            createdAt: GetTimeNow(),
+          });
+        })
+        .then(() => {
+          navigate("/Login");
         })
         .catch((err) => {
           let ourErro = err.message.split("/")[1];
@@ -215,10 +231,11 @@ const RegistationLeft = () => {
               <div className="text-center">
                 <p className="font-sans text-sm">
                   Already have an account ?
-                  <span className="text-[#EA6C00] font-semibold cursor-pointer">
-                    {" "}
-                    Sign In
-                  </span>
+                  <Link to={"/login"}>
+                    <span className="text-[#EA6C00] font-semibold cursor-pointer">
+                      Sign In
+                    </span>
+                  </Link>
                 </p>
               </div>
             </div>

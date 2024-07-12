@@ -2,19 +2,69 @@ import React from "react";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router-dom";
+import {
+  EmailValidator,
+  PasswordValidator,
+} from "../../../Utils/Validation.js";
+import { sucessTost, errorTost, infoTost } from "../../../Utils/Toast.js";
+
+// import { useToast } from "react-toastify";
+import BeatLoader from "react-spinners/BeatLoader.js";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginLeft = () => {
+  const auth = getAuth();
+  const [loading, setLoading] = useState(false);
   const [eyeOpen, seteyeOpen] = useState(true);
+  // login information >>> state
   const [loginInfo, setloginInfo] = useState({
     email: "",
     password: "",
   });
-  const handelLoginInfo = (e) => {
+
+  // all error >>>> state
+  const [loginerror, setloginerror] = useState({
+    emailError: " ",
+    passwordError: " ",
+  });
+
+  const handelLoginInput = (e) => {
     setloginInfo({
+      ...loginInfo,
       [e.target.id]: e.target.value,
     });
   };
-  // const [loading, setLoading] = useState(false);
+
+  const handelSignIn = () => {
+    const { email, password } = loginInfo;
+    if (!email || !EmailValidator(email)) {
+      setloginerror({
+        ...loginerror,
+        emailError: "Wrong email",
+      });
+    } else if (!password) {
+      setloginerror({
+        ...loginerror,
+        emailError: " ",
+        passwordError: "wrong Password",
+      });
+    } else {
+      setLoading(true);
+      setloginerror({
+        ...loginerror,
+        emailError: " ",
+        passwordError: " ",
+      });
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userinfo) => {
+          sucessTost(`Login Sucessfull`);
+        })
+        .catch((err) => {
+          errorTost(`${err.code}`);
+        });
+    }
+  };
 
   /*
    * todo: handelEmail function impliment
@@ -59,13 +109,13 @@ const LoginLeft = () => {
                     type="text"
                     name="email"
                     id="email"
-                    // value={email}
-                    onChange={handelLoginInfo}
+                    value={loginInfo.email}
+                    onChange={handelLoginInput}
                     placeholder="@gmail.com"
                   />
                 </fieldset>
                 <span className="text-red-500 font-normal font-custom_nunito">
-                  {/* {erroemail && erroemail} */}
+                  {loginerror.emailError}
                 </span>
               </div>
 
@@ -79,8 +129,8 @@ const LoginLeft = () => {
                       className="py-6 px-5  font-custom_nunito text-lg font-semibold "
                       name="password"
                       type={eyeOpen ? "password" : "text"}
-                      // value={password}
-                      onChange={handelLoginInfo}
+                      value={loginInfo.password}
+                      onChange={handelLoginInput}
                       id="password"
                       placeholder=". . . . . ."
                     />
@@ -93,18 +143,18 @@ const LoginLeft = () => {
                   </div>
                 </fieldset>
                 <span className="text-red-500 font-normal font-custom_nunito">
-                  {/* {erropassword && erropassword} */}
+                  {loginerror.passwordError}
                 </span>
               </div>
 
               <div className="mt-4">
                 <a
-                  // onClick={handelSubmit}
+                  onClick={handelSignIn}
                   className=" py-5 w-full rounded-lg text-white font-custom_nunito text-lg font-semibold text-center bg-primery_Blue"
                   href="#"
                 >
                   Login to Continue
-                  {/* {loading ? (
+                  {loading ? (
                     <BeatLoader
                       // color={color}
                       loading={loading}
@@ -115,15 +165,17 @@ const LoginLeft = () => {
                     />
                   ) : (
                     "Sign up"
-                  )} */}
+                  )}
                 </a>
               </div>
               <div className="text-center">
                 <p className="font-sans text-sm">
                   Don’t have an account ?
-                  <span className="text-[#EA6C00] font-semibold cursor-pointer">
-                    Sign up
-                  </span>
+                  <Link to={"/Registration"}>
+                    <span className="text-[#EA6C00] font-semibold cursor-pointer">
+                      Sign up
+                    </span>
+                  </Link>
                 </p>
               </div>
             </div>
