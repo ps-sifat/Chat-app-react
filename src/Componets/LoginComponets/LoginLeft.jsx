@@ -8,10 +8,13 @@ import {
   PasswordValidator,
 } from "../../../Utils/Validation.js";
 import { sucessTost, errorTost, infoTost } from "../../../Utils/Toast.js";
-
-// import { useToast } from "react-toastify";
-import BeatLoader from "react-spinners/BeatLoader.js";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { InfinitySpin } from "react-loader-spinner";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 
 const LoginLeft = () => {
   const auth = getAuth();
@@ -43,7 +46,7 @@ const LoginLeft = () => {
         ...loginerror,
         emailError: "Wrong email",
       });
-    } else if (!password) {
+    } else if (!password || !PasswordValidator) {
       setloginerror({
         ...loginerror,
         emailError: " ",
@@ -61,7 +64,15 @@ const LoginLeft = () => {
           sucessTost(`Login Sucessfull`);
         })
         .catch((err) => {
-          errorTost(`${err.code}`);
+          errorTost(`${err.code}`, "bottom-right");
+        })
+        .finally(() => {
+          setLoading(false),
+            setloginerror({
+              ...loginerror,
+              emailError: "",
+              passwordError: "",
+            });
         });
     }
   };
@@ -75,6 +86,30 @@ const LoginLeft = () => {
   const handelEye = () => {
     seteyeOpen(!eyeOpen);
   };
+  /**
+   * todo: handelLoginGoogle function impliment
+   * @pram ({})
+   */
+  const handelLoginGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
 
   return (
     <>
@@ -87,7 +122,7 @@ const LoginLeft = () => {
                 Login to your account!
               </h1>
             </div>
-            <div className="mt-7">
+            <div onClick={handelLoginGoogle} className="mt-7">
               <button className="px-7 py-6 flex items-center gap-x-2 font-custom_nunito font-semibold text-sm text-[#03014C] border-2 border-[rgba(3,1,76,0.2)] rounded-lg">
                 <span className="text-xl">
                   <FcGoogle />
@@ -150,21 +185,15 @@ const LoginLeft = () => {
               <div className="mt-4">
                 <a
                   onClick={handelSignIn}
-                  className=" py-5 w-full rounded-lg text-white font-custom_nunito text-lg font-semibold text-center bg-primery_Blue"
+                  className=" h-[90px] flex items-center justify-center w-full rounded-lg text-white font-custom_nunito text-lg font-semibold text-center bg-primery_Blue"
                   href="#"
                 >
-                  Login to Continue
                   {loading ? (
-                    <BeatLoader
-                      // color={color}
-                      loading={loading}
-                      // cssOverride={override}
-                      size={20}
-                      aria-label="Loading Spinner"
-                      data-testid="loader"
-                    />
+                    <span className="flex items-center justify-center h-full">
+                      <InfinitySpin visible={true} width="200" color="#fff" />
+                    </span>
                   ) : (
-                    "Sign up"
+                    "Login to Continue"
                   )}
                 </a>
               </div>
