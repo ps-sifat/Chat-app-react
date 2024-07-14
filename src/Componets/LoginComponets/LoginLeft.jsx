@@ -16,6 +16,11 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 
+import { GetTimeNow } from "../../../Utils/Moments/Moments.js";
+import { getDatabase, ref, set, push } from "firebase/database";
+
+const db = getDatabase();
+
 const LoginLeft = () => {
   const auth = getAuth();
   const [loading, setLoading] = useState(false);
@@ -94,10 +99,16 @@ const LoginLeft = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
+        const userRef = ref(db, "users");
+        set(push(userRef), {
+          uid: user.uid,
+          userName: user.displayName,
+          userEmail: user.email,
+          createAt: GetTimeNow(),
+        });
       })
       .catch((error) => {
         // Handle Errors here.
