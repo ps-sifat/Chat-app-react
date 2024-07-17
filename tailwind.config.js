@@ -10,6 +10,7 @@ export default {
       },
       fontFamily: {
         custom_nunito: ["Nunito", "sans-serif"],
+        custom_popins: ["Poppins", "sans-serif"],
       },
     },
   },
