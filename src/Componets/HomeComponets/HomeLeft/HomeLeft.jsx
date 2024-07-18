@@ -7,10 +7,10 @@ import LogOut from "../../../assets/HomeLeft/LogOut.png";
 import chat from "../../../assets/HomeLeft/chat.gif";
 
 const HomeLeft = () => {
-  const [test, settest] = useState("chat");
+  const [test, settest] = useState("home");
   return (
     <>
-      <div className=" w-[220px] h-full py-10 bg-primery_Blue flex justify-between flex-col items-center rounded-[20px] ">
+      <div className=" w-[310px] h-full py-10 bg-primery_Blue flex justify-between flex-col items-center rounded-[20px] ">
         <div className="icon">
           <picture>
             <img src={navIcon} alt={navIcon} />

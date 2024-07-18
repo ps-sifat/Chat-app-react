@@ -5,7 +5,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 const Search = () => {
   return (
     <>
-      <div className="flex justify-between items-center px-6 h-[60px] w-[426px] rounded-[20px] shadow-xl shadow-[rgba(0, 0, 0, 0.35)]">
+      <div className="flex justify-between items-center px-6 h-[60px] w-full rounded-[20px] shadow-xl shadow-[rgba(0, 0, 0, 0.35)] bg-white">
         <div className="flex items-center w-full ">
           <CiSearch className="text-xl" />
           <input

@@ -2,7 +2,7 @@ import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import avater from "../../../../assets/HomeRight/profile.png";
 
-const GroupList = () => {
+const Friends = () => {
   return (
     <>
       <div>
@@ -10,7 +10,7 @@ const GroupList = () => {
           {/* title  */}
           <div className="flex justify-between items-center">
             <span className="font-custom_popins font-semibold text-xl">
-              Group List
+              Friends
             </span>
             <BsThreeDotsVertical className="text-xl text-primery_Blue" />
           </div>
@@ -50,4 +50,4 @@ const GroupList = () => {
   );
 };
 
-export default GroupList;
+export default Friends;
