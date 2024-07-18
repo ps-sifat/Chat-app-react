@@ -3,6 +3,7 @@ import Search from "../../CommonComponets/Search/Search.jsx";
 import GroupList from "../HomeRightComponets/GoroupList/GroupList.jsx";
 import Friends from "../HomeRightComponets/Friends/Friends.jsx";
 import UserList from "../HomeRightComponets/UserList/UserList.jsx";
+import FriendRequest from "../Friend Request/FriendRequest.jsx";
 const HomeRight = () => {
   return (
     <>
@@ -11,9 +12,8 @@ const HomeRight = () => {
         <div className="flex justify-start flex-wrap gap-8 mt-9">
           <GroupList />
           <Friends />
-
           <UserList />
-          <GroupList />
+          <FriendRequest />
 
           <Friends />
           <Friends />
