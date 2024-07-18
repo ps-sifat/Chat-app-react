@@ -7,7 +7,7 @@ const HomeRight = () => {
     <>
       <div>
         <Search />
-        <div className="flex justify-start flex-wrap gap-8 mt-10">
+        <div className="flex justify-start flex-wrap gap-8 mt-9">
           <GroupList />
           <Friends />
           <Friends />

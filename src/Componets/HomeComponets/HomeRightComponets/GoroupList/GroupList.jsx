@@ -1,12 +1,12 @@
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import avater from "../../../../assets/HomeRight/profile.png";
+import avater from "../../../../assets/HomeRight/groupAvater.png";
 
 const GroupList = () => {
   return (
     <>
       <div>
-        <div className="w-[400px] h-[347px] rounded-[20px] shadow-2xl p-5 bg-white ">
+        <div className="w-[400px] h-[400px] rounded-[20px] shadow-2xl p-5 bg-white ">
           {/* title  */}
           <div className="flex justify-between items-center">
             <span className="font-custom_popins font-semibold text-xl">
