@@ -5,7 +5,7 @@ import RegistationRight from "../../Componets/RegistationComponets/RegistationRi
 const Registration = () => {
   return (
     <>
-      <div className="flex justify-between items-center h-screen">
+      <div className="flex justify-between items-center h-screen bg-white">
         <RegistationLeft />
         <RegistationRight />
       </div>

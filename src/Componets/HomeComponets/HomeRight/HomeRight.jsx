@@ -4,6 +4,7 @@ import GroupList from "../HomeRightComponets/GoroupList/GroupList.jsx";
 import Friends from "../HomeRightComponets/Friends/Friends.jsx";
 import UserList from "../HomeRightComponets/UserList/UserList.jsx";
 import FriendRequest from "../Friend Request/FriendRequest.jsx";
+import MyGroup from "../MyGroup/MyGroup.jsx";
 const HomeRight = () => {
   return (
     <>
@@ -14,8 +15,7 @@ const HomeRight = () => {
           <Friends />
           <UserList />
           <FriendRequest />
-
-          <Friends />
+          <MyGroup />
           <Friends />
         </div>
       </div>

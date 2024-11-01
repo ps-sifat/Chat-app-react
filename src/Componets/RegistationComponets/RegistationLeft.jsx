@@ -124,7 +124,7 @@ const RegistationLeft = () => {
 
   return (
     <>
-      <div className="h-screen ml-44 w-[40%] ">
+      <div className="h-screen ml-44 w-[40%] bg-white ">
         <div className="flex justify-center items-center h-full flex-col ">
           <div className="flex justify-start flex-col">
             {/* title */}
@@ -139,9 +139,9 @@ const RegistationLeft = () => {
             {/* title */}
 
             {/* input field  */}
-            <div className="mt-10 gap-y-9 flex flex-col max-w-[368px]">
+            <div className="mt-10 gap-y-9 flex flex-col max-w-[368px] ">
               <div>
-                <fieldset className="border-2 px-9  w-full rounded-lg">
+                <fieldset className="border-2 px-9  w-full rounded-lg ">
                   <legend className="px-4">
                     Email Address <span className="text-red-600">*</span>
                   </legend>
