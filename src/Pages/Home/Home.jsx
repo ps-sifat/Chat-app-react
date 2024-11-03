@@ -1,13 +1,11 @@
 import React from "react";
-import HomeLeft from "../../Componets/HomeComponets/HomeLeft/HomeLeft";
-import HomeRight from "../../Componets/HomeComponets/HomeRight/HomeRight";
+import HomeRightAllcontent from "../../Componets/HomeComponets/HomeRightComponets/HomeRightAllcontent";
 
 const Home = () => {
   return (
     <>
-      <div className="flex gap-x-7  p-8  ">
-        <HomeLeft />
-        <HomeRight />
+      <div className="pl-8">
+        <HomeRightAllcontent />
       </div>
     </>
   );

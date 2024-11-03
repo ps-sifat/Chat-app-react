@@ -1,6 +1,6 @@
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import avater from "../../../../src/assets/HomeRight/profile.png";
+import avater from "../../../../assets/HomeRight/profile.png";
 
 const BlockUser = () => {
   return (
